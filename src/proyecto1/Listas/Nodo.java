@@ -11,7 +11,7 @@ package proyecto1.Listas;
  */
 public class Nodo <T> {
     
-    private int next;
+    int next;
     private T data;
     
     public Nodo (T data) {
