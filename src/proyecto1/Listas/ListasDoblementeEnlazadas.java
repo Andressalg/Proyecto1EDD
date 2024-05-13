@@ -11,5 +11,9 @@ package proyecto1.Listas;
  */
 public class ListasDoblementeEnlazadas<E> extends ListaSimplementeEnlazada<E> {
     
+    public ListasDoblementeEnlazadas(int max) {
+        super(max);
+    }
+    
     
 }

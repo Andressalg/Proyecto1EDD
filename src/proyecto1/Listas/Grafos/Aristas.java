@@ -9,5 +9,9 @@ package proyecto1.Listas.Grafos;
  * @author Buste
  */
 public class Aristas {
+    char data;
     
+    Aristas(char data ) {
+        this.data = data;
+    }
 }
