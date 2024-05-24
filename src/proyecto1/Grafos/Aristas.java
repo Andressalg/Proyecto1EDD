@@ -9,13 +9,27 @@ package proyecto1.Grafos;
  * @author Buste
  */
 class Arista {
-   private Vertice vertice;
+   private Vertice inicio;
+   private Vertice fin;
+   private int peso;
+   
+   public Arista(Vertice InicioA, Vertice FinV, int peso){
+       this.inicio = InicioA;
+       this.fin = FinV;
+       this.peso = peso;
+   }
+   
+   public Vertice getInicio() {
+       return this.inicio;
+   }
+   
+   public Vertice getFinal(){
+       return this.fin;
+   }
+   
+   public int getPeso(){
+       return this.peso;
+   }
    
    
-   public Arista(Vertice vertice){
-       this.vertice = vertice;
-   }
-   public Vertice getVertice() {
-       return this.vertice;
-   }
 }
