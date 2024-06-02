@@ -23,5 +23,25 @@ public class Traverso {
         }
     
     }
+    public static void BreadthFirstSearch(Vertice inicio,ListaSimplementeEnlazada<Vertices>, VVisitados ){
+        ListaSimplementeEnlazada Visitados = new ListaSimplementeEnlazada();
+        Visitados.addAtStart(inicio);
+        while (!Visitados.isEmpty()){
+            Vertice current = Visitados.SetSize(int 0);
+            
+            for (Arista e: current.getAristas()){
+               Vertice vecino = e.getFinal();
+               if (VVisitados.contains(vecino)){
+                VVisitados.addAtEnd(vecino);
+                visitados.addAtEnd(vecino);
+            }
+               
+            }
+        }
+        
+    }
+    
+    
+    
     
 }
