@@ -7,6 +7,7 @@ package proyecto1.Grafos;
 /**
  *
  * @author Buste
+ * El algoritmo busca el nodo empezando del paramtero de inicio y traversa todas su ramas antes de continuar al siguiente grupo de nodos
  */
 public class Traverso {
     
@@ -23,6 +24,11 @@ public class Traverso {
         }
     
     }
+       /**
+ *
+ * @author Buste
+ * El algoritmo traversa todos los nodos de su mismo nivel antes de traversar aquellos de niveles mas bajos
+ */
     public static void BreadthFirstSearch(Vertice inicio,ListaSimplementeEnlazada<Vertices>, VVisitados ){
         ListaSimplementeEnlazada Visitados = new ListaSimplementeEnlazada();
         Visitados.addAtStart(inicio);

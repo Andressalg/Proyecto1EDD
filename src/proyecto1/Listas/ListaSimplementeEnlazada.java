@@ -25,6 +25,11 @@ public class ListaSimplementeEnlazada <T> {
         this.array = new Nodo[max];
     }
     
+    /**
+ *
+ * @author Buste
+ * borra todos los elementos de la lista
+ */
     public void empty() {
         setFirst (first = -1);
         setLast (last = -1);
@@ -32,17 +37,31 @@ public class ListaSimplementeEnlazada <T> {
         setArray(new Nodo[getArray().length]);
         
     }
-    
+    /**
+ *
+ * @author Buste
+ * @return True si la lista no tiene ningun elemento
+ */
     public boolean isEmpty() {
         
         return getSize()==0;
     }
     
+    /**
+ *
+ * @author Buste
+ * @return True si la lista no tiene ningun elemento vacio
+ */
     public boolean isFull(){
         
         return getSize()>= getArray().length;
     }
     
+    /**
+ *
+ * @author Buste
+ * @return el numero en la lista el cual no tiene ningun elemento
+ */
     public int searchEmptySlot(){
      for (int i = 0; i < getArray().length; i++) {
          if(getArray()[i] == null) {
@@ -53,7 +72,11 @@ public class ListaSimplementeEnlazada <T> {
      
     }
 
-    
+    /**
+ *
+ * @author Buste
+ * introduce el parametro al principio de la lista
+ */
     public void addAtStart(T data) {
       if(!isFull() ){
         Nodo newNodo = new Nodo(data);
@@ -74,6 +97,11 @@ public class ListaSimplementeEnlazada <T> {
         }
         
     }
+    /**
+ *
+ * @author Buste
+ * introduce el parametro al final de la lista
+ */
     public void addAtEnd(T data){
         
         if(!isFull()){
@@ -94,7 +122,11 @@ public class ListaSimplementeEnlazada <T> {
             setSize(getSize()+1);
         }
     }
-    
+    /**
+ *
+ * @author Buste
+ * agrega valores int empezando de 0, terminando en el parametro
+ */
     public void insertOrderedNumbered(T data) {
                 if(!isFull()){
             Nodo newNodo = new Nodo(data);
@@ -126,7 +158,7 @@ public class ListaSimplementeEnlazada <T> {
     
     /**
      *
-     * @return
+     * @return todos los valores en cada lista
      */
     public String print(){
        String print = "";

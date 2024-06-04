@@ -18,15 +18,27 @@ class Arista {
        this.fin = FinV;
        this.peso = peso;
    }
-   
+      /**
+ *
+ * @author Buste
+ * The Inicio
+ */
    public Vertice getInicio() {
        return this.inicio;
    }
-   
+      /**
+ *
+ * @author Buste
+ * The Fin
+ */
    public Vertice getFinal(){
        return this.fin;
    }
-   
+      /**
+ *
+ * @author Buste
+ * The Peso
+ */
    public int getPeso(){
        return this.peso;
    }
