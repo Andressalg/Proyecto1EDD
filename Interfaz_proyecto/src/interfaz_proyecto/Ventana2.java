@@ -5,9 +5,18 @@
 package interfaz_proyecto;
 
 import Clases.Global;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import proyecto1.Listas.ListaSimplementeEnlazada;
+import Clases.SopaDeLetras;
+
 
 /**
  *
@@ -21,9 +30,7 @@ public class Ventana2 extends javax.swing.JFrame {
     public Ventana2() {
         initComponents();
         Ventana1 v1 = new Ventana1();
-        this.setLocationRelativeTo(null);
-        
-        
+        this.setLocationRelativeTo(null);      
     }
     
     
@@ -194,10 +201,10 @@ public class Ventana2 extends javax.swing.JFrame {
         FileNameExtensionFilter filter = new FileNameExtensionFilter(".txt", "txt");
         file.setFileFilter(filter);
         file.setAcceptAllFileFilterUsed(false);
-        int resultado = file.showOpenDialog(null);
-        if(resultado == JFileChooser.APPROVE_OPTION){
+        int result = file.showOpenDialog(null);
+        if(result == JFileChooser.APPROVE_OPTION){
             Global.setFile(file.getSelectedFile());
-            JOptionPane.showMessageDialog(null, "Su archivo ha sido creaado con exito");
+            JOptionPane.showMessageDialog(null, "Su archivo ha sido creado con exito");
         }
     }//GEN-LAST:event_Cargar_ArchivoMouseClicked
     
@@ -205,23 +212,93 @@ public class Ventana2 extends javax.swing.JFrame {
      * valida que file este vacio
      * @return 
      */
-    private boolean File_vacio(){
+    private boolean FileIsEmpty(){
         return Global.getFile() == null;
     }
+    
     
     /**
      * Boton que muestra la siguiente ventana de la interfaz
      * @param evt 
      */
     private void continuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_continuarActionPerformed
-        if(File_vacio()){
+        if(FileIsEmpty()){
+            //Se muestra una alerta en caso de no haber seleccionado el archivo 
             JOptionPane.showMessageDialog(null, "No se ha seleccionado ningun archivo");
         }else{
-            Ventana3 v3 = new Ventana3();
-            v3.setLocationRelativeTo(null);
-            v3.setVisible(true);
-        }
+                // se crea un objeto buffered reader para leer el txt
+                try ( BufferedReader br = new BufferedReader(new FileReader(Global.getFile()))) {
+                    String linea;
+                    String[] letras;
+                    
+                    ListaSimplementeEnlazada<ListaSimplementeEnlazada<Character>> tableroLista;
+                    tableroLista = new ListaSimplementeEnlazada<ListaSimplementeEnlazada<Character>>(100);
+                    
+                    //Crear las listas de diccionario y tablero
+                    ListaSimplementeEnlazada<String> diccionario = 
+                            new ListaSimplementeEnlazada<>(100); //*esto no se si es el tamano revisar****
+                    // variables booleanas para confirmación dentro de la lectura
+                    boolean ReadingDictionary = false;
+                    boolean ReadingBoard = false;
+                    
+                    //Se lee cada linea del archivo y al momento en el que se encuentra
+                    //con alguna etiqueta cambia el valor de las variables booleanas
+                    // y asi poder identificar si se está o no leyendo.
+                    while ((linea = br.readLine()) != null) {
+                        //diccionario
+                        if (linea.trim().equals("dic")){
+                            ReadingDictionary = true;
+                            continue;
+                        }else if (linea.trim().equals("/dic")){
+                            ReadingDictionary = false;
+                            continue;
+                            //Agregar palabras al diccionario
+                        }else if (ReadingDictionary){
+                            diccionario.addAtEnd(linea.trim());
+                            
+                            //Tablero
+                        } else if (linea.trim().equals("tab")){
+                            ReadingBoard = true;
+                            continue;
+                        } else if (linea.trim().equals("/tab")){
+                            ReadingBoard = false;
+                            continue;
+                            // Agregar las filas al tablero
+                        }else{
+                            letras = linea.split(",");
+                            if(letras.length == 4){ //Verificar que la fila tenga 4 lineas
+                                ListaSimplementeEnlazada<Character> fila =
+                                        new ListaSimplementeEnlazada<>(4);
+                                for(String letra : letras){
+                                    fila.addAtEnd(letra.trim().charAt(0));
+                                }
+                                if (fila.getSize() == 4){
+                                tableroLista.addAtEnd(fila);
+                                System.out.println(tableroLista); 
+                                }
+                            }
+                        }
+                    }
+                    // Se cierra el objeto Buffered
+                    br.close();
+                
+                
+                //Se crea la instancia Sopa de Letras y se guardan las listas
+                SopaDeLetras sopaDeLetras = new SopaDeLetras(diccionario, tableroLista);
+                sopaDeLetras.setDiccionario(diccionario);
+                sopaDeLetras.generarTablero(tableroLista);
+                
+                Ventana3 v3 = new Ventana3();
+                v3.setLocationRelativeTo(null);
+                v3.setVisible(true);
+                this.dispose();
+                
+                } catch(IOException e){
+                    JOptionPane.showMessageDialog(null, "Error al leer el archivo:" + e.getMessage());
+            }    
+            }
     }//GEN-LAST:event_continuarActionPerformed
+    
     
     /**
      * @param args the command line arguments
