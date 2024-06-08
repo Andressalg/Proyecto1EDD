@@ -5,9 +5,18 @@
 package interfaz_proyecto;
 
 import Clases.Global;
+import Clases.Matriz;
+import Clases.Palabra;
+import interfaz_proyecto.Ventana3;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import proyecto1.Listas.ListaSimplementeEnlazada;
+
 
 /**
  *
@@ -21,9 +30,7 @@ public class Ventana2 extends javax.swing.JFrame {
     public Ventana2() {
         initComponents();
         Ventana1 v1 = new Ventana1();
-        this.setLocationRelativeTo(null);
-        
-        
+        this.setLocationRelativeTo(null);      
     }
     
     
@@ -136,6 +143,11 @@ public class Ventana2 extends javax.swing.JFrame {
         continuar.setForeground(new java.awt.Color(255, 255, 255));
         continuar.setText("continuar");
         continuar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        continuar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                continuarMouseClicked(evt);
+            }
+        });
         continuar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 continuarActionPerformed(evt);
@@ -153,10 +165,10 @@ public class Ventana2 extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(continuar)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addGap(16, 16, 16)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(continuar)
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(110, 110, 110)
@@ -194,10 +206,10 @@ public class Ventana2 extends javax.swing.JFrame {
         FileNameExtensionFilter filter = new FileNameExtensionFilter(".txt", "txt");
         file.setFileFilter(filter);
         file.setAcceptAllFileFilterUsed(false);
-        int resultado = file.showOpenDialog(null);
-        if(resultado == JFileChooser.APPROVE_OPTION){
+        int result = file.showOpenDialog(null);
+        if(result == JFileChooser.APPROVE_OPTION){
             Global.setFile(file.getSelectedFile());
-            JOptionPane.showMessageDialog(null, "Su archivo ha sido creaado con exito");
+            JOptionPane.showMessageDialog(null, "Su archivo ha sido creado con exito");
         }
     }//GEN-LAST:event_Cargar_ArchivoMouseClicked
     
@@ -205,23 +217,106 @@ public class Ventana2 extends javax.swing.JFrame {
      * valida que file este vacio
      * @return 
      */
-    private boolean File_vacio(){
+    private boolean FileIsEmpty(){
         return Global.getFile() == null;
     }
+    
     
     /**
      * Boton que muestra la siguiente ventana de la interfaz
      * @param evt 
      */
     private void continuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_continuarActionPerformed
-        if(File_vacio()){
+        if(FileIsEmpty()){
+            //Se muestra una alerta en caso de no haber seleccionado el archivo 
             JOptionPane.showMessageDialog(null, "No se ha seleccionado ningun archivo");
         }else{
-            Ventana3 v3 = new Ventana3();
-            v3.setLocationRelativeTo(null);
-            v3.setVisible(true);
-        }
+                String path = Global.getFile().getAbsolutePath();
+                ListaSimplementeEnlazada<Palabra> ListaDiccionario = 
+                        new ListaSimplementeEnlazada<>(100);
+                //
+                ListaSimplementeEnlazada<Character> ListaLetras = 
+                        new ListaSimplementeEnlazada<>(100);
+                try {
+                    // se crea un objeto buffered reader para leer el txt
+                    BufferedReader br = new BufferedReader(new FileReader(path));
+                    String linea;
+                    // variables booleanas para confirmación dentro de la lectura
+                    boolean ReadingDictionary = false;
+                    boolean ReadingBoard = false;
+                    // leer la linea 
+                    linea = br.readLine();
+                    //Se lee cada linea del archivo y al momento en el que se encuentra
+                    //con alguna etiqueta cambia el valor de las variables booleanas
+                    // y asi poder identificar si se está o no leyendo.
+                    while ((linea = br.readLine()) != null) {
+                        //diccionario
+                        if (linea.trim().equals("dic")){
+                            ReadingDictionary = true;
+                            continue;
+                        }
+                        if (linea.trim().equals("/dic")){
+                            ReadingDictionary = false;
+                            continue;
+                        }
+                        if (ReadingDictionary){
+                            // Creamos un objeto palabra
+                            Palabra palabra = new Palabra(linea);
+                            //System.out.println("Linea" + linea);
+                            System.out.println("Objeto" + palabra.getPalabra());
+                            // Agregamos la palabra a la lista de forma ordenada
+                            ListaDiccionario.addAtEnd(palabra);
+                            
+                            //Tablero
+                        }
+                        if (linea.trim().equals("tab")){
+                            ReadingBoard = true;
+                            continue;
+                        }
+                        if (linea.trim().equals("/tab")){
+                            ReadingBoard = false;
+                            continue;
+                            // Agregar las filas al tablero
+                        }
+                        if (ReadingBoard){
+                            String[] caracteres = linea.split(",");
+                            for (String caracter : caracteres){
+                                System.out.println("Linea" + caracter);
+                                ListaLetras.addAtEnd(caracter.charAt(0));
+                                //ListaLetras.print();
+                            }
+                        }
+                    }
+                    Global.setListaLetras(ListaLetras);
+                    Global.setListaPalabras(ListaDiccionario);
+                    // Se cierra el objeto Buffered
+                    br.close();
+                
+                    //System.out.println("PALABRAS");
+                    //Global.getListaLetras().print();
+                    //System.out.println("TABLERO");
+                    //Global.getListaLetras().print();
+                //if (Global.getListaPalabras().isEmpty()){
+                    //JOptionPane.showMessageDialog(null,"No se pudo guardar el diccionario");
+                //} else if(Global.getListaLetras().isEmpty()){
+                    //JOptionPane.showMessageDialog(null, "El tablero está vacío");
+                //}else{
+                    Ventana3 v3 = new Ventana3();
+                    v3.setLocationRelativeTo(null);
+                    v3.setVisible(true);
+                    this.dispose();  
+                //}
+                
+                } catch(IOException e){
+                    JOptionPane.showMessageDialog(null, "Error al leer el archivo:" + e.getMessage());
+                }    
+            }
     }//GEN-LAST:event_continuarActionPerformed
+
+    private void continuarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_continuarMouseClicked
+        
+    }//GEN-LAST:event_continuarMouseClicked
+    
     
     /**
      * @param args the command line arguments
