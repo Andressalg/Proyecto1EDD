@@ -11,6 +11,18 @@ import proyecto1.Listas.Lista;
 public class Vertice {
   public Vertice(String data) {
     }
+
+    void addArista(Vertice vertice2, int peso) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    void removeVertice(Vertice vertice2) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    Object getData() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
    public class Nodo {
    public String Id;
    public String Letra;
@@ -83,21 +95,13 @@ public class Vertice {
  *
  * @author Buste
  * borra el vertice dado en el paramtero
+       * @param verticeFin
  */
     public void removeVertice(Vertice verticeFin){
        if(this.Aristas ==  Aristas.getLast().equals(verticeFin));{
         verticeFin = null;
     }
     }
-       /**
- *
- * @author Buste
- * @return the data
- */
-    public String getData(){
-        return this.data;
-    }
-    
        /**
  *
  * @author Buste

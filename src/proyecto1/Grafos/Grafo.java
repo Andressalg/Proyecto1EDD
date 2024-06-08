@@ -12,7 +12,7 @@ import proyecto1.Listas.Lista;
  * 
  */
 class Grafo {
-private Lista<Vertice> vertices;
+private Lista vertices;
 private boolean esPesado;
 private boolean esDirigido;
 
@@ -47,6 +47,15 @@ public void addArista(Vertice vertice1, Vertice vertice2, int peso){
         vertice2.addArista(vertice1, peso);
     }
 }
+
+   /**
+ *
+ * @author Buste
+ * borra un vertice de la lista
+ */
+public void removeVertice(Vertice vertice){
+        this.vertices.empty(vertice);
+}
    /**
  *
  * @author Buste
@@ -57,14 +66,6 @@ public void removeArista(Vertice vertice1, Vertice vertice2){
     if(!this.isEsDirigido()){
         vertice2.removeVertice(vertice1);
     }
-}
-   /**
- *
- * @author Buste
- * borra un vertice de la lista
- */
-public void removeVertice(Vertice vertice){
-        this.vertices.empty(vertice);
 }
 
 public Lista<Vertice> getVertices(){
@@ -97,6 +98,7 @@ public Lista<Vertice> getVertices(){
                 
             }
         }
+    return null;
     }
 
 

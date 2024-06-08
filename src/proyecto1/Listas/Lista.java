@@ -36,7 +36,7 @@ public class Lista <T> {
  * @author Buste
  * borra todos los elementos de la lista
  */
-    public void empty() {
+    public void empty(Vertice vertice) {
         setFirst (first = -1);
         setLast (last = -1);
         setSize (size = 0);
