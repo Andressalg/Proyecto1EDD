@@ -8,29 +8,14 @@ import proyecto1.Listas.Lista;
  *
  * @author Buste
  */
-public class Vertice {
-  public Vertice(String data) {
-    }
-
-    void addArista(Vertice vertice2, int peso) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    void removeVertice(Vertice vertice2) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    Object getData() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-   public class Nodo {
+   public class Vertice {
    public String Id;
    public String Letra;
-   public Nodo ApuntadorDerecha;
-   public Nodo ApuntadorIzquierda;
+   public Vertice ApuntadorDerecha;
+   public Vertice ApuntadorIzquierda;
    public Lista ListaAdyacencia;
 
-    public Nodo(String Id, String Letra) {
+    public Vertice(String Id) {
         this.Id = Id;
         this.Letra = Letra;
         this.ApuntadorDerecha = null;
@@ -57,19 +42,19 @@ public class Vertice {
         this.Letra = Letra;
     }
 
-    public Nodo getApuntadorDerecha() {
+    public Vertice getApuntadorDerecha() {
         return ApuntadorDerecha;
     }
 
-    public void setApuntadorDerecha(Nodo ApuntadorDerecha) {
+    public void setApuntadorDerecha(Vertice ApuntadorDerecha) {
         this.ApuntadorDerecha = ApuntadorDerecha;
     }
 
-    public Nodo getApuntadorIzquierda() {
+    public Vertice getApuntadorIzquierda() {
         return ApuntadorIzquierda;
     }
 
-    public void setApuntadorIzquierda(Nodo ApuntadorIzquierda) {
+    public void setApuntadorIzquierda(Vertice ApuntadorIzquierda) {
         this.ApuntadorIzquierda = ApuntadorIzquierda;
     }
 
@@ -87,9 +72,6 @@ public class Vertice {
  * agrega una arista al principio de la lista
        * @param verticeFin
  */
-    public void addArista (Vertice verticeFin, int peso){
-        this.addAtStart(new Aristas(this, verticeFin ,peso));
-    }
     
        /**
  *
@@ -98,24 +80,7 @@ public class Vertice {
        * @param verticeFin
  */
     public void removeVertice(Vertice verticeFin){
-       if(this.Aristas ==  Aristas.getLast().equals(verticeFin));{
-        verticeFin = null;
+        this.removeVertice(verticeFin);
     }
+
     }
-       /**
- *
- * @author Buste
- * @return the arista
- * 
- */
-    public Lista<Aristas> getAristas(){
-        return this.Aristas;
-}
-    
-    
-    
-    
-    }
-  
-    
-}

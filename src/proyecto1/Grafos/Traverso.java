@@ -11,10 +11,10 @@ package proyecto1.Grafos;
  */
 public class Traverso {
     
-    public static void DepthFirstSearch(Vertice inicio, ListaSimplementeEnlazada<Vertices>, VVisitados){
-        System.out.println(inicio.getData());
+    public static void DepthFirstSearch(Vertice inicio, Lista, VVisitados){
+        System.out.println(inicio.getId());
         
-        for (Aristas a: inicio.getAristas()) {
+        for (Aristas a: inicio.getApuntadorDerecha()) {
            Vertice vecino = a.getFinal();
            
            if(!VVisitados.contains(vecino)) {

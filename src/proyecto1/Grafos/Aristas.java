@@ -9,6 +9,10 @@ package proyecto1.Grafos;
  * @author Buste
  */
 public class Aristas {
+
+    static Object getLast() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
    private Vertice inicio;
    private Vertice fin;
    private int peso;
@@ -22,6 +26,7 @@ public class Aristas {
  *
  * @author Buste
  * The Inicio
+     * @return 
  */
    public Vertice getInicio() {
        return this.inicio;

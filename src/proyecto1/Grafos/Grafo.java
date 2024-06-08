@@ -12,9 +12,9 @@ import proyecto1.Listas.Lista;
  * 
  */
 class Grafo {
-private Lista vertices;
-private boolean esPesado;
-private boolean esDirigido;
+public Lista vertices;
+public boolean esPesado;
+public boolean esDirigido;
 
 public Grafo(boolean esPesadoinput, boolean esDirigidoinput ) {
     this.vertices = new Lista<Vertice>();
@@ -29,7 +29,7 @@ public Grafo(boolean esPesadoinput, boolean esDirigidoinput ) {
  */
 public Vertice addVertice(String data){
     Vertice newVertice = new Vertice(data);
-    this.vertices.AddAtStart(newVertice);
+    this.vertices.addAtStart(data);
     return newVertice;
 }
 
@@ -37,16 +37,6 @@ public Vertice addVertice(String data){
  *
  * @author Buste
  * agrega una Arista a la lista
- */
-public void addArista(Vertice vertice1, Vertice vertice2, int peso){
-    if (!this.isEsPesado()){
-        peso = 0;
-    }
-    vertice1.addArista(vertice2, peso);
-    if(!this.isEsDirigido()){
-        vertice2.addArista(vertice1, peso);
-    }
-}
 
    /**
  *
@@ -69,7 +59,7 @@ public void removeArista(Vertice vertice1, Vertice vertice2){
 }
 
 public Lista<Vertice> getVertices(){
-    return this.vertices
+    return this.vertices;
 }
 
     /**
@@ -85,21 +75,4 @@ public Lista<Vertice> getVertices(){
     public boolean isEsDirigido() {
         return esDirigido;
     }
-    
-       /**
- *
- * @author Buste
- * busca el vertice dado segun su valor
- */
-    public Vertice getVerticeByValue(String valor) {
-        for(Vertice v: this.vertices) {
-            if(v.getData().equals(valor)){
-                return v;
-                
-            }
-        }
-    return null;
-    }
-
-
     }
