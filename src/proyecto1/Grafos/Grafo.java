@@ -2,77 +2,309 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package proyecto1.Grafos;
-import proyecto1.Listas.Lista;
+package  proyecto1.Grafos;
 
-
-   /**
- *
- * @author Buste
+/**
  * 
- */
-class Grafo {
-public Lista vertices;
-public boolean esPesado;
-public boolean esDirigido;
-
-public Grafo(boolean esPesadoinput, boolean esDirigidoinput ) {
-    this.vertices = new Lista<Vertice>();
-    this.esPesado = esPesadoinput;
-    this.esDirigido = esDirigidoinput;
-}
-
-     /**
- *
  * @author Buste
- * agrega un Vertice a la lista
  */
-public Vertice addVertice(String data){
-    Vertice newVertice = new Vertice(data);
-    this.vertices.addAtStart(data);
-    return newVertice;
-}
 
-   /**
- *
- * @author Buste
- * agrega una Arista a la lista
-
-   /**
- *
- * @author Buste
- * borra un vertice de la lista
+/**
+ * Esta clase representa un grafo.
  */
-public void removeVertice(Vertice vertice){
-        this.vertices.empty(vertice);
-}
-   /**
- *
- * @author Buste
- * borra una Arista de la lista
- */
-public void removeArista(Vertice vertice1, Vertice vertice2){
-    vertice1.removeVertice(vertice2);
-    if(!this.isEsDirigido()){
-        vertice2.removeVertice(vertice1);
-    }
-}
 
-public Lista<Vertice> getVertices(){
-    return this.vertices;
-}
+public class Grafo {
+    private NodoGrafo primero;
+    private NodoGrafo ultimo;
 
     /**
-     * @return the esPesado
+     * Construye un grafo vacío.
      */
-    public boolean isEsPesado() {
-        return esPesado;
+    public Grafo() {
+        primero = null;
+        ultimo = null;
     }
 
     /**
-     * @return the esDirigido
+     * Verifica si el grafo está vacío.
+     *
+     * @return verdadero si el grafo está vacío, falso de lo contrario
      */
-    public boolean isEsDirigido() {
-        return esDirigido;
+    public boolean grafoVacio() {
+        return primero == null;
     }
+    
+    /**
+     * Verifica si existe un vértice en el grafo.
+     *
+     * @param dato el dato del vértice a verificar
+     * @return verdadero si el vértice existe, falso de lo contrario
+     */
+    public boolean existeVertice(Object dato) {
+        boolean existe = false;
+        if (!grafoVacio()) {
+            NodoGrafo temporal = primero;
+            while (temporal != null && !existe) {
+                if (temporal.dato.toString().equals(dato.toString())) {
+                    existe = true;
+
+                }
+                temporal = temporal.siguiente;
+            }
+        }
+        return existe;
     }
+    
+    /**
+     * Crea un nuevo arco entre dos vértices.
+     *
+     * @param origen el vértice de origen
+     * @param destino el vértice de destino
+     */
+    public void NuevoArco(Object origen, Object destino) {
+        if (existeVertice(origen) && existeVertice(destino)) {
+            NodoGrafo posicion = primero;
+            while (!posicion.dato.equals(origen.toString())) {
+                posicion = posicion.siguiente;
+            }
+
+            posicion.lista.nuevaAdyacencia(destino);
+        }
+    }    
+
+    /**
+     * Crea un nuevo nodo en el grafo.
+     *
+     * @param dato el dato del nuevo nodo
+     */
+    public void nuevoNodo(Object dato){
+        if(!existeVertice(dato)){
+            NodoGrafo nodo = new NodoGrafo(dato);
+            if(grafoVacio()){
+                primero = nodo;
+                ultimo = nodo;
+            } else{
+                if(dato.toString().compareTo(primero.dato.toString())<=0){
+                    nodo.siguiente = primero;
+                    primero= nodo;
+
+                }else{
+                    if(dato.toString().compareTo(ultimo.dato.toString())>=0){
+                        ultimo.siguiente = nodo;
+                        ultimo = nodo;
+                    }else{
+                        NodoGrafo temporal = primero;
+                        while(dato.toString().compareTo(temporal.dato.toString())<0){
+                            temporal = temporal.siguiente;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Elimina un arco entre dos vértices.
+     *
+     * @param origen el vértice de origen
+     * @param destino el vértice de destino
+     */
+    public void eliminarArco(Object origen, Object destino) {
+        if (this.existeVertice(origen) && this.existeVertice(destino)) {
+            NodoGrafo posicion = this.primero;
+            while (posicion.dato != origen) {
+                posicion = posicion.siguiente;
+                posicion.lista.eliminarAdyacencia(destino);
+            }
+
+        }
+
+    }
+    
+    /**
+     * Elimina un nodo del grafo.
+     *
+     * @param verticeEliminar el vértice a eliminar
+     */
+    public void eliminarNodo(String verticeEliminar){
+        if(this.existeVertice(verticeEliminar)){
+            NodoGrafo temporal = this.primero;
+            while(temporal != null){
+                eliminarArco(temporal.dato , verticeEliminar);
+                temporal = temporal.siguiente;
+                
+                if(this.primero == this.ultimo){
+                   this.primero= null;
+                    this.ultimo= null;
+                }else{
+                    NodoGrafo pActual = this.primero;
+                    NodoGrafo pAnterior = null;
+                    while(pActual != null && verticeEliminar.toString().compareTo(pActual.dato.toString())>0){
+                        pAnterior= pActual;
+                        pActual =pActual.siguiente;
+                        if(pActual == this.primero){
+                            NodoGrafo nodoEliminar = this.primero;
+                            this.primero = this.primero.siguiente;
+                            nodoEliminar.siguiente= null;
+
+                    } else {
+                        if(pActual == this.ultimo){
+                            pAnterior.siguiente = null;
+                            this.ultimo = pAnterior;
+                        }else{
+                            pAnterior.siguiente= pActual.siguiente;
+                            pActual.siguiente= null;
+                        }
+                            
+                      }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Obtiene el primer nodo del grafo.
+     *
+     * @return el primer nodo
+     */
+    public NodoGrafo getPrimero() {
+        return primero;
+    }
+
+    /**
+     * Establece el primer nodo del grafo.
+     *
+     * @param primero el nuevo primer nodo
+     */
+    public void setPrimero(NodoGrafo primero) {
+        this.primero = primero;
+    }
+
+    /**
+     * Obtiene el último nodo del grafo.
+     *
+     * @return el último nodo
+     */
+    public NodoGrafo getUltimo() {
+        return ultimo;
+    }
+
+    /**
+     * Establece el último nodo del grafo.
+     *
+     * @param ultimo el nuevo último nodo
+     */
+    public void setUltimo(NodoGrafo ultimo) {
+        this.ultimo = ultimo;
+    }
+
+    /**
+     * Devuelve una representación en cadena del grafo.
+     *
+     * @return una representación en cadena del grafo
+     */
+    public String toString() {
+        String cadena = "";
+        NodoGrafo temporal = primero;
+        while (temporal != null) {
+            cadena = cadena + temporal.dato.toString() + " -> " + temporal.lista.toString() + "\n";
+            temporal = temporal.siguiente;
+
+        }
+        return cadena;
+    }
+
+    /**
+     * Busca un nodo en el grafo.
+     *
+     * @param dato el dato del nodo a buscar
+     * @return el nodo si se encuentra, nulo de lo contrario
+     */
+    private NodoGrafo buscarNodo(Object dato) {
+        NodoGrafo temp = primero;
+        while (temp != null) {
+            if (temp.dato.equals(dato)) {
+                return temp;
+            }
+            temp = temp.siguiente;
+        }
+        return null;
+    }
+
+    /**
+     * Agrega una arista dirigida entre dos vértices.
+     *
+     * @param origen el vértice de origen
+     * @param destino el vértice de destino
+     */
+    public void agregarAristaDirigida(Object origen, Object destino) {
+        NodoGrafo nodoOrigen = buscarNodo(origen);
+        if (nodoOrigen != null) {
+            nodoOrigen.lista.nuevaAdyacencia(destino);
+        }
+    }
+
+    /**
+     * Verifica si un valor está contenido en un array.
+     *
+     * @param array el array a verificar
+     * @param v el valor a buscar
+     * @return verdadero si el valor está en el array, falso de lo contrario
+     */
+    private boolean contains(String[] array, String v) {
+        for (String element : array) {
+            if (element != null && element.equals(v)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Realiza una búsqueda en profundidad en el grafo.
+     *
+     * @param v el nodo inicial
+     * @param visited un array con los nodos visitados
+     * @param visitedCount el número de nodos visitados
+     * @param component un array para almacenar los nodos del componente actual
+     * @param nodeCount el número de nodos en el componente actual
+     * @return el número de nodos en el componente después de realizar la búsqueda en profundidad
+     */
+    private int dfs(NodoGrafo v, String[] visited, int visitedCount, String[] component, int nodeCount) {
+        visited[visitedCount] = (String) v.dato;
+        visitedCount++;
+        component[nodeCount] = (String) v.dato;
+        nodeCount++;
+        Arco temp = v.lista.primero;
+        while (temp != null) {
+            NodoGrafo adjNode = buscarNodo(temp.destino);
+            if (adjNode != null && !contains(visited, (String) adjNode.dato)) {
+                nodeCount = dfs(adjNode, visited, visitedCount, component, nodeCount);
+            }
+            temp = temp.siguiente;
+        }
+        return nodeCount;
+        
+
+    }
+    
+    private int bfs(NodoGrafo v, String[] visited, int visitedCount, String[] component, int nodeCount){
+        visited[visitedCount] = (String) v.dato;
+        visitedCount++;
+        component[nodeCount] = (String) v.dato;
+        nodeCount++;
+        Arco temp = v.lista.primero;
+        while (temp != null) {
+            NodoGrafo adjNode = buscarNodo(temp.destino);
+            if (adjNode != null && !contains(visited, (String) adjNode.dato)) {
+                nodeCount = dfs(adjNode, visited, visitedCount, component, nodeCount);
+            }
+            temp = temp.siguiente;
+        }
+        return nodeCount;
+        
+        
+    }
+}
+   
