@@ -8,12 +8,12 @@ package proyecto1.Grafos;
  *
  * @author Buste
  */
-class Arista {
+public class Aristas {
    private Vertice inicio;
    private Vertice fin;
    private int peso;
    
-   public Arista(Vertice InicioA, Vertice FinV, int peso){
+   public Aristas (Vertice InicioA, Vertice FinV, int peso){
        this.inicio = InicioA;
        this.fin = FinV;
        this.peso = peso;
@@ -44,4 +44,5 @@ class Arista {
    }
    
    
+    
 }

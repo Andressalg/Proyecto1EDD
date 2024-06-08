@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package proyecto1.Grafos;
-import proyecto1.Listas.ListaSimplementeEnlazada;
+import proyecto1.Listas.Lista;
 
 
    /**
@@ -12,12 +12,12 @@ import proyecto1.Listas.ListaSimplementeEnlazada;
  * 
  */
 class Grafo {
-private ListaSimplementeEnlazada<Vertice> vertices;
+private Lista<Vertice> vertices;
 private boolean esPesado;
 private boolean esDirigido;
 
 public Grafo(boolean esPesadoinput, boolean esDirigidoinput ) {
-    this.vertices = new ListaSimplementeEnlazada<Vertice>();
+    this.vertices = new Lista<Vertice>();
     this.esPesado = esPesadoinput;
     this.esDirigido = esDirigidoinput;
 }
@@ -67,7 +67,7 @@ public void removeVertice(Vertice vertice){
         this.vertices.empty(vertice);
 }
 
-public ListaSimplementeEnlazada<Vertice> getVertices(){
+public Lista<Vertice> getVertices(){
     return this.vertices
 }
 

@@ -35,7 +35,7 @@ public class Traverso {
         while (!Visitados.isEmpty()){
             Vertice current = Visitados.SetSize(int 0);
             
-            for (Arista e: current.getAristas()){
+            for (Aristas e: current.getAristas()){
                Vertice vecino = e.getFinal();
                if (VVisitados.contains(vecino)){
                 VVisitados.addAtEnd(vecino);
